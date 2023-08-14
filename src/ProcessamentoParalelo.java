@@ -1,11 +1,16 @@
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class ProcessamentoParalelo {
 
-	public static void main(String[] args) {
-		System.out.println("Inicio Thread Main");
-		new PingPong("Ping", 1000).start();
-		new PingPong("Pong", 2000).start();
-		System.out.println("Fim Thread Main");
-	}
-
+    private static AtomicInteger counter = new AtomicInteger(0);
+    
+    public static void main(String[] args) throws InterruptedException {
+        System.out.println("Thread Main started");
+        
+        new Status(counter).start();
+        new PingPong("Ping", 10000, counter).start();
+        new PingPong("Pong", 15000, counter).start();
+        
+        System.out.println("Thread Main ended");
+    }    
 }
